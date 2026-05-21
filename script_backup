@@ -1,0 +1,245 @@
+
+
+local lift = require("Lift")
+local patpat = require("Patpat")
+local chat_bubble = require("modules/chat_bubble/chat_bubble")
+
+local LockMovement = false
+
+table.insert(patpat.onPat, function ()
+pings.purr()
+end)
+
+isCat = false
+isHuman = false
+
+CatNameplate = function ()
+local nameplateJson = toJson({
+{ text = 'Roxi ', color = '#ff9f2f' },
+{ text = '', font = "figura:emoji_animal", color = 'white' }
+})
+for k,v in ipairs(client.getActiveResourcePacks()) do
+if v == 'Cosmics_Custom_Emojis_v1.0.10.zip' then
+nameplateJson = toJson({
+{ text = 'Roxi ', color = '#ff9f2f' },
+{ text = ':@roxi:', font = "figura:emoji_custom", color = 'white' }
+})
+break
+end
+end
+return nameplateJson
+end
+
+function genMeowSound()
+local meow_subtitle ='[[{color: "white", text: "", font: "figura:emoji_animal"}], [{color:"gold",text:" Roxi meows :3",font:"minecraft:default"}]]'
+local meow_sound = sounds["Wawa"]:subtitle(meow_subtitle):pitch(math.random()+0.5)
+return meow_sound:pos(player:getPos())
+end
+
+pings.meow = function () if player:isLoaded() then if isCat then genMeowSound():play() end end end
+
+function events.chat_send_message(msg)
+if string.find(msg, "mrrrp") then
+pings.purr()
+return msg
+elseif string.sub(msg, 1, 1) == '/' or string.sub(msg, 1, 1) == '@' then
+return msg
+else
+pings.meow()
+return msg
+end
+end
+
+Subtitle = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" Roxi was patted :3","font":"minecraft:default","color":"#ff9f2f"}]'
+
+HumanNameplate = toJson({
+{ text = 'Roxi ', color = '#ff9f2f' },
+{ text = '(human)', color = 'gray', italics = true }
+})
+
+AFKNameplate = toJson({
+{ text = '\nafk ', color = 'dark_gray', italics = true },
+{ text = ':zzz:', font = 'figura:emoji_symbol', italics = true }
+})
+
+TypingNameplate = toJson({
+{ text = '\nin chat ', color = 'dark_gray', italics = true },
+{ text = ':typing_animated:', font = 'figura:emoji_symbol', italics = true }
+})
+
+function pings.cat()
+models.model.root:setPrimaryTexture("CUSTOM", textures["model.Roxi_Mystle"])
+nameplate.ALL:setText(CatNameplate())
+nameplate.ENTITY:setBackgroundColor(0, 0, 0, 0)
+:setOutline(true)
+isCat = true
+isHuman = false
+end
+
+function pings.human()
+models.model.root:setPrimaryTexture("CUSTOM", textures["model.human_alt"])
+nameplate.ALL:setText(HumanNameplate)
+nameplate.ENTITY:setBackgroundColor(0, 0, 0, 0)
+:setOutline(true)
+isHuman = true
+isCat = false
+end
+
+
+function events.entity_init()
+models.model.root:setPrimaryTexture("CUSTOM", textures["model.Roxi_Mystle"])
+nameplate.ALL:setText(CatNameplate())
+nameplate.ENTITY:setBackgroundColor(0, 0, 0, 0)
+:setOutline(true)
+vanilla_model.ALL:setVisible(false)
+vanilla_model.HELD_ITEMS:setVisible(true)
+vanilla_model.ELYTRA:setVisible(true)
+vanilla_model.ARMOR:setVisible(true)
+isCat = true
+isHuman = false
+end
+
+function pings.typing()
+nameplate.ENTITY:setText(string.sub(nameplate.ENTITY:getText(), 1, -2) .. "," .. string.sub(TypingNameplate,2, -1))
+end
+
+function pings.afk()
+nameplate.ENTITY:setText(string.sub(nameplate.ENTITY:getText(), 1, -2) .. "," .. string.sub(AFKNameplate,2, -1))
+end
+
+function pings.defaultNP()
+if isCat then
+nameplate.ENTITY:setText(CatNameplate())
+elseif isHuman then
+nameplate.ENTITY:setText(HumanNameplate)
+end
+end
+
+local wasTyping = false
+local wasUnfocused = false
+
+chosenSit = function ()
+if isCat then
+return catSitPose
+else
+return humanSitPose
+end
+end
+
+
+function events.tick()
+local isTyping = host:isChatOpen()
+local isUnfocused = not client.isWindowFocused()
+if wasTyping ~= isTyping and isTyping then
+pings.typing()
+elseif wasUnfocused ~= isUnfocused and isUnfocused then
+pings.afk()
+pings.deathPlay()
+elseif wasTyping ~= isTyping and not isTyping then
+if wasUnfocused ~= isUnfocused and isUnfocused then
+pings.afk()
+else
+pings.defaultNP()
+end
+elseif wasUnfocused ~= isUnfocused and not isUnfocused then
+if wasTyping ~= isTyping and isTyping then
+pings.typing()
+else
+pings.defaultNP()
+pings.deathStop()
+end
+end
+wasTyping = isTyping
+wasUnfocused = isUnfocused
+LockMovement = deathPose:isPlaying()
+
+if math.random(10000) == 1 then
+pings.meow()
+end
+
+if player:isLoaded() then
+chosenSit():setPlaying(not not player:getVehicle())
+end
+end
+
+for _,key in ipairs({
+keybinds:fromVanilla("key.forward"),
+keybinds:fromVanilla("key.back"),
+keybinds:fromVanilla("key.left"),
+keybinds:fromVanilla("key.right"),
+keybinds:fromVanilla("key.jump"),
+keybinds:fromVanilla("key.attack"),
+keybinds:fromVanilla("key.use"),
+keybinds:fromVanilla("key.sneak"),
+}) do
+key.press = function()
+return LockMovement
+end
+end
+function events.mouse_move()
+return LockMovement
+end
+
+
+
+
+
+function events.render(delta, context)
+
+end
+
+deathPose = animations.model.family_guy_death
+
+catSitPose = animations.model.cat_sit
+
+humanSitPose = animations.model.human_sit
+
+function pings.deathPlay()
+deathPose:play()
+end
+
+function pings.deathStop()
+deathPose:stop()
+end
+
+function pings.purr()
+if isCat then
+if player:isLoaded() then
+sounds["minecraft:entity.cat.purreow"]:pos(player:getPos()):pitch(math.random()+0.5):subtitle(Subtitle):play()
+end
+end
+end
+
+local actionsPage1 = action_wheel:newPage()
+local actionsPage2 = action_wheel:newPage()
+action_wheel:setPage(actionsPage1)
+
+local switchSkinHuman = actionsPage1:newAction()
+:title("Human Roxi")
+:item("stick")
+:hoverColor(1, 0 ,1)
+:onLeftClick(pings.human)
+
+local switchSkinCat = actionsPage1:newAction()
+:title("kibby roxi :3")
+:item("cat_spawn_egg")
+:hoverColor(1, 0, 1)
+:onLeftClick(pings.cat)
+
+local familyGuyDeath = actionsPage2:newAction()
+:title("ded")
+:item("minecraft:skeleton_skull")
+:hoverColor(0, 1, 0)
+:onLeftClick(pings.deathPlay)
+:onRightClick(pings.deathStop)
+
+function action_wheel.scroll()
+if action_wheel:getCurrentPage() == actionsPage1 then
+action_wheel:setPage(actionsPage2)
+elseif action_wheel:getCurrentPage() == actionsPage2 then
+action_wheel:setPage(actionsPage1)
+end
+end
+
+local meowbind = keybinds:newKeybind("Meow", "key.keyboard.m", false)
+meowbind.press = pings.meow
