@@ -1,6 +1,7 @@
 -- Script made with <3 by Roxi (also Kit/Romi)
 
 local ping = require("modules.pings")
+local nplates = require('modules.nameplates')
 
 vanilla_model.PLAYER:setVisible(false)
 
@@ -9,12 +10,12 @@ pings.human = ping.Human
 
 function events.ENTITY_INIT()
   pings.cat()
+  silly:setFly(true)
 end
 
 pings.meow = ping.Meow
 
 local actionsPage1 = action_wheel:newPage()
-local actionsPage2 = action_wheel:newPage()
 action_wheel:setPage(actionsPage1)
 
 local switchSkinHuman = actionsPage1:newAction()
@@ -31,3 +32,11 @@ local switchSkinCat = actionsPage1:newAction()
 
 local meowbind = keybinds:newKeybind("meow :3", "key.keyboard.m", false)
 meowbind.press = pings.meow
+
+function action_wheel.scroll()
+  if action_wheel:getCurrentPage() == actionsPage1 then
+    action_wheel:setPage(nplates.ActionsPage2)
+    elseif action_wheel:getCurrentPage() == nplates.ActionsPage2 then
+  action_wheel:setPage(actionsPage1)
+  end
+end

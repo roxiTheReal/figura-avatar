@@ -16,7 +16,7 @@ end
 
 function P.Human()
   models.model.root:setPrimaryTexture("CUSTOM", textures["Roxi_Human"])
-  nameplate.ALL:setText(nplates.HumanNameplate)
+  nameplate.ALL:setText(nplates.HumanNameplate())
   nameplate.ENTITY:setBackgroundColor(0, 0, 0, 0):setOutline(true)
   IsHuman = true
   IsCat = false
@@ -32,9 +32,9 @@ end
 
 function P.Default()
   if IsCat then
-    nameplate.ENTITY:setText(nplates.CatNameplate())
+    nameplate.ALL:setText(nplates.CatNameplate())
   elseif IsHuman then
-    nameplate.ENTITY:setText(nplates.HumanNameplate)
+    nameplate.ALL:setText(nplates.HumanNameplate())
   end
 end
 
