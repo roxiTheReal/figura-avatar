@@ -1,42 +1,50 @@
 -- Script made with <3 by Roxi (also Kit/Romi)
+-- The main script: usually just for one-off function calls, so it's now very empty
+-- most of the other code should just have their own file dedicated to that one feature
+local patpat = require('patpat')
+local skins  = require('./modules/skins')
 
-local ping = require("modules.pings")
-local nplates = require('modules.nameplates')
+table.insert(patpat.onPat, function ()
+   pings.purr()
+end)
 
 vanilla_model.PLAYER:setVisible(false)
 
-pings.cat = ping.Cat
-pings.human = ping.Human
-
-function events.ENTITY_INIT()
-  pings.cat()
-  silly:setFly(true)
+if host:isHost() then
+   silly:setFly(true)
 end
 
-pings.meow = ping.Meow
+local MovementLock = require("modules/lockmovement")
 
-local actionsPage1 = action_wheel:newPage()
-action_wheel:setPage(actionsPage1)
+MovementLock.bindKeys({
+   keybinds:fromVanilla("key.forward"),
+   keybinds:fromVanilla("key.back"),
+   keybinds:fromVanilla("key.left"),
+   keybinds:fromVanilla("key.right"),
+   keybinds:fromVanilla("key.jump"),
+   keybinds:fromVanilla("key.attack"),
+   keybinds:fromVanilla("key.use"),
+   keybinds:fromVanilla("key.sneak"),
+})
 
-local switchSkinHuman = actionsPage1:newAction()
-:title("Human Roxi")
-:item("stick")
-:hoverColor(1, 0 ,1)
-:onLeftClick(pings.human)
+function events.tick()
+   MovementLock.set(
+   animations.model.man_am_dead:isPlaying()
+)
+end
 
-local switchSkinCat = actionsPage1:newAction()
-:title("kibby roxi :3")
-:item("cat_spawn_egg")
-:hoverColor(1, 0, 1)
-:onLeftClick(pings.cat)
+function events.mouse_move()
+   return MovementLock.mouseMove()
+end
 
-local meowbind = keybinds:newKeybind("meow :3", "key.keyboard.m", false)
-meowbind.press = pings.meow
-
-function action_wheel.scroll()
-  if action_wheel:getCurrentPage() == actionsPage1 then
-    action_wheel:setPage(nplates.ActionsPage2)
-    elseif action_wheel:getCurrentPage() == nplates.ActionsPage2 then
-  action_wheel:setPage(actionsPage1)
-  end
+function events.chat_send_message(msg)
+   if string.find(msg, "mrrrp") then
+      pings.purr()
+      return msg
+   elseif string.sub(msg, 1, 1) == '/' or string.sub(msg, 1, 1) == '@' then
+      return msg
+   else
+      pings.meow()
+      return msg
+   end
 end
