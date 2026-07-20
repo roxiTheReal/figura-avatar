@@ -14,5 +14,4 @@ end
 
 -- Set skin to cat on first load
 models.model.root:setPrimaryTexture("CUSTOM", textures["Roxi_Mystle"])
-
 return skins

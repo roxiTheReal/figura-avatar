@@ -63,7 +63,7 @@ fi
 
 #* :==:==:==:==:==:==:==:==:==:==:==:==:=CHECK GIT DOWNLOAD=:==:==:==:==:==:==:==:==:==:==:==:==: *#
 if [[ -d $TEMP ]]; then
-  echo "The \"$TEMP\" folder is used to store downloaded files from git."
+  echo "\"$TEMP\" folder is used to store downloaded files from git."
   echo "Make sure that folder is gone before running this script."
   read -p "Press any key to exit . . . " -n 1 -rs
   exit 1

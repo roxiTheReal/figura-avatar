@@ -17,13 +17,13 @@ local function appendCatName(json)
 	-- Check if the person seeing your avatar has cosmic's emoji resource pack
 	local hasCustomEmojis = false
 	for k, v in ipairs(client.getActiveResourcePacks()) do
-		if v == "^Cosmics_Custom_Emojis_v1.0.10.zip" then
+		if v:match("^Cosmics_Custom_Emojis_v1.0.10.zip") then
 			hasCustomEmojis = true
 			break
 		end
 	end
 
-	if hasCustomEmojis then
+	if not hasCustomEmojis then
 		table.insert(json, {text = ' ᚸᚳ ', font = "figura:badges", color = 'white'})
 		table.insert(json, {text = "", font = 'figura:emoji_animal', color = 'white'})
 	else
@@ -92,7 +92,7 @@ end
 
 -- ================================= --
 -- Automatically rebuild names as soon as nameIndex or formIndex changes
-local nameList = {"Roxi", "Kit", "Romi"}
+local nameList = {"Roxi", "Kit", "Romi", "Junix"}
 local formList = {"cat", "human"}
 
 local nameIndex_old, nameIndex = nil, 1

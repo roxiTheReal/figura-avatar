@@ -1,43 +1,23 @@
--- == Script to manage armbands == --
-local baseModel = models.model.root
-
-local armbands = {
-  RightEnby = baseModel.RightArm.RightArmBandEnby,
-  RightTrans = baseModel.RightArm.RightArmBandTrans,
-  LeftEnby = baseModel.LeftArm.LeftArmBandEnby,
-  LeftTrans = baseModel.LeftArm.LeftArmBandTrans
-}
-
----Toggles the specified armband
----@param arm string
----@param band string
-function pings.toggleArmBand(arm, band)
-  if arm:lower() == ("right"):lower() then
-    if band:lower() == ("enby"):lower() then
-      armbands.RightEnby:setVisible(true)
-      armbands.RightTrans:setVisible(false)
-    elseif band:lower() == ("trans"):lower() then
-      armbands.RightTrans:setVisible(true)
-      armbands.RightEnby:setVisible(false)
-    else
-      return
+function pings.toggleArmBand(arm, flag)
+    models.model.root.LeftArm.LeftArmBandTrans:setPrimaryTexture("CUSTOM", textures["trans_arm_band"])
+    models.model.root.LeftArm.LeftArmBandEnby:setPrimaryTexture("CUSTOM", textures["enby_arm_band"])
+    models.model.root.RightArm.RightArmBandTrans:setPrimaryTexture("CUSTOM", textures["trans_arm_band"])
+    models.model.root.RightArm.RightArmBandEnby:setPrimaryTexture("CUSTOM", textures["enby_arm_band"])
+    if arm == "left" then
+        if flag == "trans" then
+            models.model.root.LeftArm.LeftArmBandTrans:setVisible(true)
+            models.model.root.LeftArm.LeftArmBandEnby:setVisible(false)
+        elseif flag == "enby" then
+            models.model.root.LeftArm.LeftArmBandTrans:setVisible(false)
+            models.model.root.LeftArm.LeftArmBandEnby:setVisible(true)
+        end
+    elseif arm == "right" then
+        if flag == "trans" then
+            models.model.root.RightArm.RightArmBandTrans:setVisible(true)
+            models.model.root.RightArm.RightArmBandEnby:setVisible(false)
+        elseif flag == "enby" then
+            models.model.root.RightArm.RightArmBandTrans:setVisible(false)
+            models.model.root.RightArm.RightArmBandEnby:setVisible(true)
+        end
     end
-  elseif arm:lower() == ("left"):lower() then
-    if band:lower() == ("enby"):lower() then
-      armbands.LeftEnby:setVisible(true)
-      armbands.LeftTrans:setVisible(false)
-    elseif band:lower() == ("trans"):lower() then
-      armbands.LeftTrans:setVisible(true)
-      armbands.LeftEnby:setVisible(false)
-    else
-      return
-    end
-  else
-    return
-  end
 end
-
-armbands.RightEnby:setPrimaryTexture("CUSTOM", textures["enby_arm_band"])
-armbands.LeftEnby:setPrimaryTexture("CUSTOM", textures["enby_arm_band"])
-armbands.RightTrans:setPrimaryTexture("CUSTOM", textures["trans_arm_band"])
-armbands.LeftTrans:setPrimaryTexture("CUSTOM", textures["trans_arm_band"])

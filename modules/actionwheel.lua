@@ -2,8 +2,8 @@
 -- Require all the scripts you need at the top of the file
 local skins		= require("./skins")
 local nplates	= require('./nameplate/builder')
-local armband = require('./armbands')
 local runLater = require('modules.runLater')
+
 
 -- Array to store all the pages in order
 local pages = {}
@@ -52,6 +52,13 @@ local name3 = pages[2]:newAction()
 	:item("minecraft:name_tag")
 	:onLeftClick(function()
 		pings.setNameplateNameIndex(3)
+    end)
+    
+local name4 = pages[2]:newAction()
+	:title("Change nameplate to Junix")
+	:item("minecraft:name_tag")
+	:onLeftClick(function()
+		pings.setNameplateNameIndex(4)
 	end)
 
 -- Page 3
