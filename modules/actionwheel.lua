@@ -61,6 +61,13 @@ local name4 = pages[2]:newAction()
 		pings.setNameplateNameIndex(4)
 	end)
 
+local name5 = pages[2]:newAction()
+	:title("Change nameplate to Delca")
+	:item("minecraft:name_tag")
+	:onLeftClick(function()
+		pings.setNameplateNameIndex(5)
+	end)
+
 -- Page 3
 pages[3] = action_wheel:newPage()
 
@@ -91,6 +98,11 @@ local manImDead = pages[4]:newAction()
 	:item("minecraft:skeleton_skull")
 	:onLeftClick(function() pings.deathPlay() end)
 	:onRightClick(function() pings.deathStop() end)
+local sitting = pages[4]:newAction()
+	:title("sit down")
+	:item("minecraft:dark_oak_stairs")
+	:onLeftClick(function() pings.sitPlay() end)
+	:onRightClick(function() pings.sitStop() end)
 
 
 pages[5] = action_wheel:newPage()

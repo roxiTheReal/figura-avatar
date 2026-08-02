@@ -1,9 +1,9 @@
--- Script made with <3 by Roxi (also Kit/Romi)
+-- Script made with <3 by Roxi (also Kit/Romi/Junix/Delca)
 -- The main script: usually just for one-off function calls, so it's now very empty
 -- most of the other code should just have their own file dedicated to that one feature
 local patpat = require('patpat')
 local skins  = require('./modules/skins')
-
+local JustLean3 = require("just-lean-3") --var can be any name
 table.insert(patpat.onPat, function ()
    pings.purr()
 end)
@@ -31,6 +31,9 @@ function events.tick()
    MovementLock.set(
    animations.model.man_am_dead:isPlaying()
 )
+   if math.random(0, 10000) == 712 then
+      pings.meow("arg")
+   end
 end
 
 function events.mouse_move()
@@ -44,7 +47,21 @@ function events.chat_send_message(msg)
    elseif string.sub(msg, 1, 1) == '/' or string.sub(msg, 1, 1) == '@' then
       return msg
    else
-      pings.meow()
+      pings.meow("arg")
       return msg
    end
 end
+
+local root = models.model.root
+local torsoPart = root.Torso
+local leftarm = torsoPart.LeftArm
+local rightarm = torsoPart.RightArm
+local model_head = torsoPart.Head
+local leftleg = root.LeftLeg
+local rightleg = root.RightLeg
+local torso = JustLean3.lean:new(3, torsoPart, 0.2725, vec(0,12,0), true, {{-90,45},{-17.5,17.5}}, vec(0.95,0.2,1), true, true, nil) --Torso
+local head = JustLean3.head:new(3, model_head, 0.75, true, {{-90,87},{-45,45}}, vec(0.95, 0.95, 0.95), torso) --Head
+local left_arm = JustLean3.arms:new(1, leftarm, 0.25, true, vec(0.5,1,0.2))
+local right_arm JustLean3.arms:new(2, rightarm, 0.25, true, vec(0.5,1,0.2))
+local left_leg = JustLean3.legs:new(1, leftleg, 0.5, true, vec(1, 0.5, 0.1))
+local right_leg = JustLean3.legs:new(2, rightleg, 0.5, true, vec(1, 0.5, 0.1))

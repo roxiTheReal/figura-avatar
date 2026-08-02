@@ -24,17 +24,17 @@ local function appendCatName(json)
 	end
 
 	if not hasCustomEmojis then
-		table.insert(json, {text = ' ᚸᚳ ', font = "figura:badges", color = 'white'})
+		table.insert(json, {text = ' ᚸᚳᚡ ', font = "figura:badges", color = 'white'})
 		table.insert(json, {text = "", font = 'figura:emoji_animal', color = 'white'})
 	else
-		table.insert(json, {text = ' ᚸᚳ ', font = "figura:badges", color = 'white'})
+		table.insert(json, {text = ' ᚸᚳᚡ ', font = "figura:badges", color = 'white'})
 		table.insert(json, {text = ':@roxi:', font = "figura:emoji_custom", color = 'white'})
 	end
 
 end
 
 local function appendHumanName(json) 
-	table.insert(json, {text = ' ᚸᚳ ', font = "figura:badges", color = 'white'})
+	table.insert(json, {text = ' ᚸᚳᚡ ', font = "figura:badges", color = 'white'})
 	table.insert(json, {text = '(human)', color = 'gray', italic = true})
 end
 
@@ -53,6 +53,11 @@ local function appendPronouns(json)
 	table.insert(json, {text = '\nshe/they', color = 'dark_gray', italic = true})
 end
 
+--[[ local function appendDesynced(json)
+	table.insert(json, {text = '\nreload me!', color = 'dark_gray', italic = true})
+	table.insert(json, {text = })
+end
+ ]]
 -- ================================= --
 
 -- The function that actually build names
@@ -92,7 +97,7 @@ end
 
 -- ================================= --
 -- Automatically rebuild names as soon as nameIndex or formIndex changes
-local nameList = {"Roxi", "Kit", "Romi", "Junix"}
+local nameList = {"Roxi", "Kit", "Romi", "Junix", "Delca(tty)"}
 local formList = {"cat", "human"}
 
 local nameIndex_old, nameIndex = nil, 1
