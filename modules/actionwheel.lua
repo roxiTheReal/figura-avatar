@@ -97,7 +97,7 @@ local manImDead = pages[4]:newAction()
 	:title("haha, man im dead")
 	:item("minecraft:skeleton_skull")
 	:onLeftClick(function() pings.deathPlay() end)
-	:onRightClick(function() pings.deathStop() end)
+	:onRightClick(function() pings.deathUnplay() end)
 local sitting = pages[4]:newAction()
 	:title("sit down")
 	:item("minecraft:dark_oak_stairs")
@@ -112,6 +112,18 @@ local boobToggle = pages[5]:newAction()
 	:item("minecraft:paper")
 	:onLeftClick(function() pings.boobOn() end)
 	:onRightClick(function() pings.boobOff() end)
+
+local shirtToggle = pages[5]:newAction()
+	:title("dress like tim :devious:")
+	:item("minecraft:leather_chestplate")
+	:onLeftClick(function() pings.toggleTimShirtOn() end)
+	:onRightClick(function() pings.toggleTimShirtOff() end)
+
+local gogglesOnOff = pages[5]:newAction()
+	:title("put goggles on/off")
+	:item("minecraft:stick")
+	:onLeftClick(function() pings.gogglesOn() end)
+	:onRightClick(function() pings.gogglesOff() end)
 
 -- This deals with scrolling
 -- it supports scrolling any number of pages

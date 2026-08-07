@@ -1,6 +1,6 @@
 -- config
 local conf = {
-   patParticle = "minecraft:heart", -- particle that will be used when patting
+   patParticle = "minecraft:cherry_leaves", -- particle that will be used when patting
    patpatKey = "key.mouse.right", -- keybind that will be used for patpat
 
    requireEmptyOffHand = false,
@@ -20,7 +20,7 @@ local conf = {
    noHearts = false,
    complicatedPlayerHeadEvents = false, -- when disabled only oncePat for player heads will work 
 
-   selfPat = false, -- for debugging
+   selfPat = true, -- for debugging
 }
 
 -- events
@@ -277,7 +277,13 @@ local function patpatPing(a, b, c)
       math.random(),
       math.random()
    ) * boundingBox
-   particles[conf.patParticle]:pos(pos):size(1):spawn()
+   local dir = math.random() * math.pi * 2
+   particles[conf.patParticle]
+      :pos(pos)
+      :size(math.random(25, 50) / 100)
+      :velocity(vec(math.cos(dir), math.random(10,150)/100, math.sin(dir)) * 0.05)
+      :lifetime(20)
+      :spawn()
 end
 
 function pings.patpat(a, b, c)

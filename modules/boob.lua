@@ -1,7 +1,7 @@
 function pings.boobOn()
-  models.model.root.Body.physBoob:setVisible(true)
+  models.model.root.Torso.Body.physBoob:setVisible(true)
 end
 
 function pings.boobOff()
-  models.model.root.Body.physBoob:setVisible(false)
+  models.model.root.Torso.Body.physBoob:setVisible(false)
 end

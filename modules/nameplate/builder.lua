@@ -40,12 +40,12 @@ end
 
 -- Append afk/typing/pronouns part of the nameplate
 local function appendAfk(json)
-	table.insert(json, {text = '\nafk ', color = 'dark_gray', italic = true})
+	table.insert(json, {text = '\ntabbed out ', color = 'dark_gray', italic = true})
 	table.insert(json, {text = ':zzz:', font = 'figura:emoji_symbol', italic = true})
 end
 
 local function appendTyping(json)
-	table.insert(json, {text = '\nin chat ', color = 'dark_gray', italic = true})
+	table.insert(json, {text = '\ntyping... ', color = 'dark_gray', italic = true})
 	table.insert(json, {text = ':typing_animated:', font = 'figura:emoji_symbol', italic = true})
 end
 

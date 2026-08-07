@@ -1,11 +1,15 @@
+local skins = require("modules.skins")
+local np    = require("modules.nameplate.builder")
+
 local runLater = require('modules.runLater')
 
 function pings.deathPlay()
-	animations.model.man_am_dead:play()
+	animations.model.man_am_dead:setSpeed(1):setLoop("HOLD"):play()
 end
 
-function pings.deathStop()
+function pings.deathUnplay()
   animations.model.man_am_dead:stop()
+  animations.model.man_am_dead:setLoop("ONCE"):setSpeed(-1):play()
 end
 
 function pings.typeAnim()
@@ -25,11 +29,35 @@ end
 
 local _crouching=false
 function events.render()
+  local sqek_cc
+  local unsqek_cc
   if not player:isLoaded() then return end
+	local hasCustomEmojis = false
+	for k, v in ipairs(client.getActiveResourcePacks()) do
+		if v:match("^Cosmics_Custom_Emojis_v1.0.10.zip") then
+			hasCustomEmojis = true
+			break
+		end
+	end
+	if not hasCustomEmojis then
+		sqek_cc = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' crouches","font":"minecraft:default","color":"#ff9f2f"}]'			
+		unsqek_cc = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' uncrouches","font":"minecraft:default","color":"#ff9f2f"}]'			
+	else
+		sqek_cc = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' crouches","font":"minecraft:default","color":"#ff9f2f"}]'
+		unsqek_cc = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' uncrouches","font":"minecraft:default","color":"#ff9f2f"}]'
+	end
   local crouching=player:isCrouching()
   if crouching~=_crouching then
-	if crouching == true then animations.model.crouching:setLoop("ONCE"):play() end
-	if crouching == false then animations.model.uncrouching:setLoop("ONCE"):play() end
+	if crouching == true then 
+		animations.model.crouching:setLoop("HOLD"):play()
+		animations.model.uncrouching:stop()
+		sounds["sqek"]:pos(player:getPos()):subtitle("Crouching"):subtitle(sqek_cc):play()
+	end
+	if crouching == false then 
+		animations.model.uncrouching:setLoop("HOLD"):play()
+		animations.model.crouching:stop()
+		sounds["sqek"]:pos(player:getPos()):subtitle("Uncrouching"):subtitle(unsqek_cc):pitch(0.9):play()
+	end
   end
   _crouching=crouching
 end
