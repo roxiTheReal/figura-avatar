@@ -2,6 +2,7 @@
 -- Require all the scripts you need at the top of the file
 local skins		= require("./skins")
 local nplates	= require('./nameplate/builder')
+local sit 		= require("./sit")
 local runLater = require('modules.runLater')
 
 
@@ -101,8 +102,8 @@ local manImDead = pages[4]:newAction()
 local sitting = pages[4]:newAction()
 	:title("sit down")
 	:item("minecraft:dark_oak_stairs")
-	:onLeftClick(function() pings.sitPlay() end)
-	:onRightClick(function() pings.sitStop() end)
+	:onLeftClick(function() pings.sit(true) end)
+	:onRightClick(function() pings.sit(false) end)
 
 
 pages[5] = action_wheel:newPage()
