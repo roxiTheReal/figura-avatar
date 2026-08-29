@@ -28,9 +28,12 @@ function events.key_press(key, action, modifier)
 end
 
 local _crouching=false
+local _sitting = false
 function events.render()
   local sqek_cc
   local unsqek_cc
+  local sit_cc
+  local unsit_cc
   if not player:isLoaded() then return end
 	local hasCustomEmojis = false
 	for k, v in ipairs(client.getActiveResourcePacks()) do
@@ -41,10 +44,14 @@ function events.render()
 	end
 	if not hasCustomEmojis then
 		sqek_cc = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' crouches","font":"minecraft:default","color":"#ff9f2f"}]'			
-		unsqek_cc = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' uncrouches","font":"minecraft:default","color":"#ff9f2f"}]'			
+		unsqek_cc = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' uncrouches","font":"minecraft:default","color":"#ff9f2f"}]'
+		sit_cc = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' sits","font":"minecraft:default","color":"#ff9f2f"}]'			
+		unsit_cc = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' unsits","font":"minecraft:default","color":"#ff9f2f"}]'
 	else
 		sqek_cc = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' crouches","font":"minecraft:default","color":"#ff9f2f"}]'
 		unsqek_cc = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' uncrouches","font":"minecraft:default","color":"#ff9f2f"}]'
+		sit_cc = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' sits","font":"minecraft:default","color":"#ff9f2f"}]'
+		unsit_cc = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' unsits","font":"minecraft:default","color":"#ff9f2f"}]'
 	end
   local crouching=player:isCrouching()
   if crouching~=_crouching then
@@ -59,5 +66,18 @@ function events.render()
 		sounds["sqek"]:pos(player:getPos()):subtitle("Uncrouching"):subtitle(unsqek_cc):pitch(0.9):play()
 	end
   end
+  local sitting = player:getVehicle() ~= nil
+
+  if sitting ~= _sitting then
+	if sitting == true then
+		pings.sit(true, "command")
+		sounds["sqek"]:pos(player:getPos()):subtitle("Crouching"):subtitle(sit_cc):play()
+	else
+		pings.sit(false, "command")
+		sounds["sqek"]:pos(player:getPos()):subtitle("Crouching"):subtitle(unsit_cc):pitch(0.9):play()
+	end
+  end
+
   _crouching=crouching
+  _sitting = sitting
 end

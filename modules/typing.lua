@@ -1,4 +1,4 @@
-local absRoot = models.model.root.Torso
+--[[ local absRoot = models.model.root.Torso
 
 local chatBubble = absRoot.Body.Billboard
    :newText("chatbubble")
@@ -43,4 +43,4 @@ function pings.typeMsg(message)
       end
       
    end, "tick_msg")
-end
+end ]]

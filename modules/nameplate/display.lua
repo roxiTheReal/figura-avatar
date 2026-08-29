@@ -20,7 +20,9 @@ if host:isHost() then
 		wasUnfocused, isUnfocused = isUnfocused, (not client.isWindowFocused())
 
 		if wasTyping ~= isTyping then pings.setTyping(isTyping) end
-		if wasUnfocused ~= isUnfocused then pings.setUnfocused(isUnfocused) end
+		if wasUnfocused ~= isUnfocused then 
+			pings.setUnfocused(isUnfocused)
+		end
 	end
 end
 

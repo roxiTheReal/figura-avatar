@@ -49,11 +49,7 @@ table.insert(patpat.oncePat, function ()
 		else
 			purr_subtitle = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' was patted :3","font":"minecraft:default","color":"#ff9f2f"}]'
 		end
-		sounds["block.wool.place"]
-			:subtitle()
-			:pos(player:getPos())
-			:play()
-		sounds["minecraft:entity.cat.purreow"]
+		sounds["minecraft:block.wool.place"]
 			:subtitle(purr_subtitle)
 			:pos(player:getPos())
 			:play()
@@ -97,6 +93,12 @@ function events.tick()
 
       end
    end
+
+   if math.random(0, 10000000) == 1 then
+      host:sendChatMessage("wawawawawawawawa- :explode:")
+      runLater(10,  function() pings.disconnect() end)
+      runLater(20, function() silly:disconnect() end)
+   end
 end
 
 function events.mouse_move()
@@ -104,6 +106,15 @@ function events.mouse_move()
 end
 
 vanilla_model.ARMOR:setVisible(false)
+vanilla_model.HELMET_ITEM:setVisible(true)
+
+local meows = {
+   "meow",
+   "mrrp",
+   "mrrow",
+   "myaw",
+   "mrrrew"
+}
 
 function events.chat_send_message(msg)
    -- Ignore commands immediately
@@ -116,10 +127,15 @@ function events.chat_send_message(msg)
       pings.purr()
    elseif string.find(msg, "meow") then
       pings.meow("arg")
+   elseif string.find(string.lower(msg), string.lower("FISH")) then
+      pings.fish()
    end
 
-   pings.typeMsg(msg)
-
+   if math.random(1, 1000) == 712 then
+      log("triggered")
+      return msg .. ", " .. meows[math.random(1, 5)] .. "!"
+   end
+   
    return msg
 end
 

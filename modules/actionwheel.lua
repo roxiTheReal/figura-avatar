@@ -102,8 +102,8 @@ local manImDead = pages[4]:newAction()
 local sitting = pages[4]:newAction()
 	:title("sit down")
 	:item("minecraft:dark_oak_stairs")
-	:onLeftClick(function() pings.sit(true) end)
-	:onRightClick(function() pings.sit(false) end)
+	:onLeftClick(function() pings.sit(true, "anim") end)
+	:onRightClick(function() pings.sit(false, "anim") end)
 
 
 pages[5] = action_wheel:newPage()

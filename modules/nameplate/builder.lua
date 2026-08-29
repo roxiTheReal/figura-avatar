@@ -7,7 +7,18 @@ local plates = {}
 -- Create a new json base where we can append more components later
 local function newNameBase(name, color)
 	return {
-		{text = name, color = color}
+		{
+			text = name, 
+			color = color, 
+			hoverEvent = {
+				action = "show_text", 
+				contents = {
+					{
+						text = "meow :3"
+					} 
+				}
+			}
+		}
 	}
 end
 
@@ -23,11 +34,12 @@ local function appendCatName(json)
 		end
 	end
 
+	table.insert(json, {text = ' ᚸᚳᚡ', font = "figura:badges", color = 'white'})
+	table.insert(json, {text = '${badges} ', italic = false})
+
 	if not hasCustomEmojis then
-		table.insert(json, {text = ' ᚸᚳᚡ ', font = "figura:badges", color = 'white'})
 		table.insert(json, {text = "", font = 'figura:emoji_animal', color = 'white'})
 	else
-		table.insert(json, {text = ' ᚸᚳᚡ ', font = "figura:badges", color = 'white'})
 		table.insert(json, {text = ':@roxi:', font = "figura:emoji_custom", color = 'white'})
 	end
 

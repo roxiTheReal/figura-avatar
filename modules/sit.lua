@@ -1,7 +1,11 @@
 -- Script file for sit (i dunno how else to add it to your avatar lmao :3 - Avery)
 
-function pings.sit(state)
+function pings.sit(state, context)
 	if player:isLoaded() then
-		animations.model.sit:setPlaying(state)
+		if context == "command" then
+			animations.model.sitCommand:setPlaying(state)
+		else
+			animations.model.sit:setPlaying(state)
+		end
 	end
 end

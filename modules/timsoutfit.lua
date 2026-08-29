@@ -13,12 +13,12 @@ local parts = {
 
 function pings.toggleTimShirtOn()
     for i = 1, #parts do
-        parts[i]:setPrimaryTexture("CUSTOM", textures["model.Tims_Outfit"]):setVisible(true)
+        parts[i]:setPrimaryTexture("CUSTOM", textures["Tims_Outfit"]):setVisible(true)
     end
 end
 
 function pings.toggleTimShirtOff()
     for i = 1, #parts do
-        parts[i]:setPrimaryTexture("CUSTOM", textures["model.Tims_Outfit"]):setVisible(false)
+        parts[i]:setPrimaryTexture("CUSTOM", textures["Tims_Outfit"]):setVisible(false)
     end
 end

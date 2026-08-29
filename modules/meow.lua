@@ -63,10 +63,7 @@ function pings.purr()
 		else
 			purr_subtitle = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' was patted :3","font":"minecraft:default","color":"#ff9f2f"}]'
 		end
-		sounds["block.wool.place"]
-			:subtitle()
-			:pos(player:getPos())
-		sounds["minecraft:entity.cat.purreow"]
+		sounds["minecraft:block.wool.place"]
 			:subtitle(purr_subtitle)
 			:pos(player:getPos())
 			:play()
@@ -77,5 +74,11 @@ function pings.disconnect()
 	if player:isLoaded() then
 		sounds["kaboom"]:pos(player:getPos()):play()
 		particles["explosion_emitter"]:pos(player:getPos()):scale(2):spawn()
+	end
+end
+
+function pings.fish()
+	if player:isLoaded() then
+		sounds["fish"]:pos(player:getPos()):subtitle("you know what dat means"):play()
 	end
 end
