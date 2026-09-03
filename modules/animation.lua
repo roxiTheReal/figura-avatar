@@ -35,24 +35,10 @@ function events.render()
   local sit_cc
   local unsit_cc
   if not player:isLoaded() then return end
-	local hasCustomEmojis = false
-	for k, v in ipairs(client.getActiveResourcePacks()) do
-		if v:match("^Cosmics_Custom_Emojis_v1.0.10.zip") then
-			hasCustomEmojis = true
-			break
-		end
-	end
-	if not hasCustomEmojis then
-		sqek_cc = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' crouches","font":"minecraft:default","color":"#ff9f2f"}]'			
-		unsqek_cc = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' uncrouches","font":"minecraft:default","color":"#ff9f2f"}]'
-		sit_cc = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' sits","font":"minecraft:default","color":"#ff9f2f"}]'			
-		unsit_cc = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' unsits","font":"minecraft:default","color":"#ff9f2f"}]'
-	else
-		sqek_cc = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' crouches","font":"minecraft:default","color":"#ff9f2f"}]'
-		unsqek_cc = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' uncrouches","font":"minecraft:default","color":"#ff9f2f"}]'
-		sit_cc = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' sits","font":"minecraft:default","color":"#ff9f2f"}]'
-		unsit_cc = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' unsits","font":"minecraft:default","color":"#ff9f2f"}]'
-	end
+		sqek_cc = '[{"text":"","font":"figura:emoji_portrait","color":"white"},{"text":" ' .. np.getName() .. ' crouches","font":"minecraft:default","color":"#ff9f2f"}]'
+		unsqek_cc = '[{"text":"","font":"figura:emoji_portrait","color":"white"},{"text":" ' .. np.getName() .. ' uncrouches","font":"minecraft:default","color":"#ff9f2f"}]'
+		sit_cc = '[{"text":"","font":"figura:emoji_portrait","color":"white"},{"text":" ' .. np.getName() .. ' sits","font":"minecraft:default","color":"#ff9f2f"}]'
+		unsit_cc = '[{"text":"","font":"figura:emoji_portrait","color":"white"},{"text":" ' .. np.getName() .. ' unsits","font":"minecraft:default","color":"#ff9f2f"}]'
   local crouching=player:isCrouching()
   if crouching~=_crouching then
 	if crouching == true then 

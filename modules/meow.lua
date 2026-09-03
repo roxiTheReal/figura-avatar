@@ -8,20 +8,9 @@ function pings.meow(arg, pitch, color)
 		if arg then
 			animations.model.msgsend:play()
 		end
-		local hasCustomEmojis = false
-		for k, v in ipairs(client.getActiveResourcePacks()) do
-			if v:match("^Cosmics_Custom_Emojis_v1.0.10.zip") then
-				hasCustomEmojis = true
-				break
-			end
-		end
 		local name = np.getName()
 		local meow_subtitle
-		if not hasCustomEmojis then
-			meow_subtitle = '[[{color: "white", text: "", font: "figura:emoji_animal"}], [{color:"gold",text:" ' .. name .. ' meows :3",font:"minecraft:default"}]]'
-		else
-			meow_subtitle = '[[{color: "white", text: "", font: "figura:emoji_custom"}], [{color:"gold",text:" ' .. name .. ' meows :3",font:"minecraft:default"}]]'
-		end
+		meow_subtitle = '[[{color: "white", text: "", font: "figura:emoji_portrait"}], [{color:"gold",text:" ' .. name .. ' meows :3",font:"minecraft:default"}]]'
 		sounds["wawa"]
 			:subtitle(meow_subtitle)
 			:pos(player:getPos())
@@ -50,19 +39,8 @@ end
 function pings.purr()
 	if player:isLoaded() then
 		animations.model.pat:stop():play()
-		local hasCustomEmojis = false
-		for k, v in ipairs(client.getActiveResourcePacks()) do
-			if v:match("^Cosmics_Custom_Emojis_v1.0.10.zip") then
-				hasCustomEmojis = true
-				break
-			end
-		end
 		local purr_subtitle
-		if not hasCustomEmojis then
-			purr_subtitle = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' was patted :3","font":"minecraft:default","color":"#ff9f2f"}]'			
-		else
-			purr_subtitle = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' was patted :3","font":"minecraft:default","color":"#ff9f2f"}]'
-		end
+		purr_subtitle = '[{"text":"","font":"figura:emoji_portrait","color":"white"},{"text":" ' .. np.getName() .. ' was patted :3","font":"minecraft:default","color":"#ff9f2f"}]'
 		sounds["minecraft:block.wool.place"]
 			:subtitle(purr_subtitle)
 			:pos(player:getPos())

@@ -12,16 +12,10 @@ local np = require("modules.nameplate.builder")
 local BugSpeak = require("BugSpeak")
 local speech = BugSpeak.new()
 
-if host:isHost() then
-  local moveScript = load(file:readString("movement.lua"))()
-  moveScript.camEffectMult = 0 -- disables the cam effects
-  moveScript.move()
-end
-
 speech:setVolume(0.5)
    :addSound('beep')
    :addSound('bop')
-   :setBasePitch(2)
+   :setBasePitch(2.5)
    :setPitchRange(0.8)
    :setSpacesPause(true)
 
@@ -36,19 +30,9 @@ table.insert(patpat.oncePat, function ()
    if player:isLoaded() then
 		animations.model.pat:stop():play()
 
-		local hasCustomEmojis = false
-		for k, v in ipairs(client.getActiveResourcePacks()) do
-			if v:match("^Cosmics_Custom_Emojis_v1.0.10.zip") then
-				hasCustomEmojis = true
-				break
-			end
-		end
 		local purr_subtitle
-		if not hasCustomEmojis then
-			purr_subtitle = '[{"text":"","font":"figura:emoji_animal","color":"white"},{"text":" ' .. np.getName() .. ' was patted :3","font":"minecraft:default","color":"#ff9f2f"}]'			
-		else
-			purr_subtitle = '[{"text":"","font":"figura:emoji_custom","color":"white"},{"text":" ' .. np.getName() .. ' was patted :3","font":"minecraft:default","color":"#ff9f2f"}]'
-		end
+		purr_subtitle = '[{"text":"","font":"figura:emoji_portrait","color":"white"},{"text":" ' .. np.getName() .. ' was patted :3","font":"minecraft:default","color":"#ff9f2f"}]'
+
 		sounds["minecraft:block.wool.place"]
 			:subtitle(purr_subtitle)
 			:pos(player:getPos())
@@ -105,6 +89,8 @@ function events.mouse_move()
    return MovementLock.mouseMove()
 end
 
+avatar:setColor(vec(1, 103/255, 0/255), "donator")
+
 vanilla_model.ARMOR:setVisible(false)
 vanilla_model.HELMET_ITEM:setVisible(true)
 
@@ -156,7 +142,7 @@ local rightarm = torsoPart.RightArm
 local model_head = torsoPart.Head
 local leftleg = root.LeftLeg
 local rightleg = root.RightLeg
-local torso = JustLean3.lean:new(3, torsoPart, 0.2725, vec(0,12,0), true, {{-90,45},{-17.5,17.5}}, vec(0.95,0.2,1), true, true, nil) --Torso
+local torso = JustLean3.lean:new(3, torsoPart, 0.2725, vec(0,12,0), true, {{-90,45},{-90,90}}, vec(0.95,0.2,1), true, true, nil) --Torso
 local head = JustLean3.head:new(3, model_head, 0.75, true, {{-90,87},{-45,45}}, vec(0.95, 0.95, 0.95), torso) --Head
 local left_arm = JustLean3.arms:new(1, leftarm, 0.25, true, vec(0.5,1,0.2))
 local right_arm JustLean3.arms:new(2, rightarm, 0.25, true, vec(0.5,1,0.2))

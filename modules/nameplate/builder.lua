@@ -24,29 +24,14 @@ end
 
 -- Append cat or human part of the nameplate
 local function appendCatName(json)
-
-	-- Check if the person seeing your avatar has cosmic's emoji resource pack
-	local hasCustomEmojis = false
-	for k, v in ipairs(client.getActiveResourcePacks()) do
-		if v:match("^Cosmics_Custom_Emojis_v1.0.10.zip") then
-			hasCustomEmojis = true
-			break
-		end
-	end
-
-	table.insert(json, {text = ' ᚸᚳᚡ', font = "figura:badges", color = 'white'})
+	table.insert(json, {text = ' ᚸᚳ', font = "figura:badges", color = 'white'})
 	table.insert(json, {text = '${badges} ', italic = false})
-
-	if not hasCustomEmojis then
-		table.insert(json, {text = "", font = 'figura:emoji_animal', color = 'white'})
-	else
-		table.insert(json, {text = ':@roxi:', font = "figura:emoji_custom", color = 'white'})
-	end
-
+	table.insert(json, {text = ':@roxi:', font = "figura:emoji_portait", color = 'white'})
 end
 
 local function appendHumanName(json) 
-	table.insert(json, {text = ' ᚸᚳᚡ ', font = "figura:badges", color = 'white'})
+	table.insert(json, {text = ' ᚸᚳ', font = "figura:badges", color = 'white'})
+	table.insert(json, {text = '${badges} ', italic = false})
 	table.insert(json, {text = '(human)', color = 'gray', italic = true})
 end
 

@@ -22,7 +22,7 @@ for k,v in ipairs(client.getActiveResourcePacks()) do
 if v == 'Cosmics_Custom_Emojis_v1.0.10.zip' then
 nameplateJson = toJson({
 { text = 'Roxi ', color = '#ff9f2f' },
-{ text = ':@roxi:', font = "figura:emoji_custom", color = 'white' }
+{ text = ':@roxi:', font = "figura:emoji_portrait", color = 'white' }
 })
 break
 end
