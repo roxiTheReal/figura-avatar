@@ -108,6 +108,14 @@ function events.chat_send_message(msg)
       return msg
    end
 
+   if string.sub(msg, 1, 1) == '>' then
+      if msg:find("cantaloupe") then
+         pings.cantaloupe(true)
+         runLater(60, function () pings.cantaloupe(false) end)
+      end
+      return msg
+   end
+
    -- Handle the pings
    if string.find(msg, "mrrrp") then
       pings.purr()

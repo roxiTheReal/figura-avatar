@@ -105,6 +105,11 @@ local sitting = pages[4]:newAction()
 	:onLeftClick(function() pings.sit(true, "anim") end)
 	:onRightClick(function() pings.sit(false, "anim") end)
 
+local wave = pages[4]:newAction()
+	:title("wave")
+	:item("minecraft:oak_door")
+	:onLeftClick(function() pings.hai() end)
+
 
 pages[5] = action_wheel:newPage()
 

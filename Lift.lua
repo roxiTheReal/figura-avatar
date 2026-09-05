@@ -30,6 +30,7 @@ local cfg = {
 		Stevemine26 = true,
 		igat = true,
 		GarmadonPrime = true,
+		HazzyMattyThing = true,
 	},
 
 	---Set the max pos distance from player

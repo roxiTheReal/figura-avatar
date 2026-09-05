@@ -1,4 +1,7 @@
 -- Dedicated to functions needed to generate names for all the variants
+--
+-- Note that very dynamic part of the name (such as afk timer) is built as a placeholder here
+-- and will be replaced in the display.lua
 local plates = {}
 
 
@@ -39,6 +42,7 @@ end
 local function appendAfk(json)
 	table.insert(json, {text = '\ntabbed out ', color = 'dark_gray', italic = true})
 	table.insert(json, {text = ':zzz:', font = 'figura:emoji_symbol', italic = true})
+	table.insert(json, 1, {text = '[${afk_timer}]\n', color = 'gray'}) -- Has placeholder text ${afk_timer}
 end
 
 local function appendTyping(json)

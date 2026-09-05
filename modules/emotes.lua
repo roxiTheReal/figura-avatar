@@ -7,6 +7,7 @@ function pings.hai()
         local hi_subtitle = toJson({ text = "", font = "figura:emoji_gesture" })
         sounds["sounds.hi"]:subtitle(hi_subtitle):pos(player:getPos()):play()
         emote:setText(toJson({ text = ":wave:", font = "figura:emoji_gesture" }))
+        animations.model.wave:play()
         runLater(60, function() emote:setText() end)
     end
 end

@@ -67,3 +67,26 @@ function events.render()
   _crouching=crouching
   _sitting = sitting
 end
+
+function pings.afk(context)
+	if context == true then
+		animations.model.afk:stop()
+		animations.model.afk:speed(1):play()
+		skins.mainGaze:setEnabled(false):zero()
+	else
+		animations.model.afk:stop()
+		animations.model.afk:speed(-1):play()
+		skins.mainGaze:setEnabled(true)
+	end
+end
+
+function pings.cantaloupe(context)
+	if not player:isLoaded() then return end
+	if context == true then
+		sounds["cantaloupe"]:pos(player:getPos()):play()
+	else
+		sounds["cantaloupe"]:stop()
+	end
+	models.model.root:setVisible(not context)
+	models.model.Cantaloupe:setPrimaryTexture("CUSTOM", textures["cantaloupe"]):setVisible(context)
+end

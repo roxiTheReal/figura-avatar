@@ -1,4 +1,4 @@
--- Script file for sit (i dunno how else to add it to your avatar lmao :3 - Avery)
+-- Script file for sit (i dunno how else to add it to your avatar lmao :3 - Skye)
 
 function pings.sit(state, context)
 	if player:isLoaded() then

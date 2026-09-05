@@ -7,8 +7,8 @@ local CONFIG = {
     messageLifetime = 100,      -- Ticks the message stays solid
     transitionTicks = 5,        -- Ticks spent fading in/out
     
-    textColor = "#ff8848",                           -- Text color (can be hex like "#FFFFFF" or MC color names like "gold")
-    outlineColor = vectors.hexToRGB("#FFFFFF"),  -- RGB values for the outline (Must be hex)
+    textColor = "#FF813D",                           -- Text color (can be hex like "#FFFFFF" or MC color names like "gold")
+    outlineColor = vectors.hexToRGB("#E95500"),  -- RGB values for the outline (Must be hex)
     baseScale = vec(0.6, 0.6, 0.6),                -- Default size of the text
     
     maxWidth = 150,             -- Pixel width before the text wraps to a new line
