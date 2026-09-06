@@ -24,6 +24,15 @@ local function newNameBase(name, color)
 		}
 	}
 end
+debugChangeCounter = 0
+lastFocused = ""
+font = "figura:emoji_logo"
+
+local afkEmoji = ":zzz:"
+function pings.afkEmoji(emoji)
+	afkEmoji = emoji
+	needsRebuild = true
+end
 
 -- Append cat or human part of the nameplate
 local function appendCatName(json)
@@ -41,8 +50,8 @@ end
 -- Append afk/typing/pronouns part of the nameplate
 local function appendAfk(json)
 	table.insert(json, {text = '\ntabbed out ', color = 'dark_gray', italic = true})
-	table.insert(json, {text = ':zzz:', font = 'figura:emoji_symbol', italic = true})
-	table.insert(json, 1, {text = '[${afk_timer}]\n', color = 'gray'}) -- Has placeholder text ${afk_timer}
+	table.insert(json, {text = afkEmoji, italic = true, font = font})
+	table.insert(json, 1, {text = '[${afk_timer}]\n', color = 'gray', italic = true}) -- Has placeholder text ${afk_timer}
 end
 
 local function appendTyping(json)
@@ -103,14 +112,52 @@ local formList = {"cat", "human"}
 
 local nameIndex_old, nameIndex = nil, 1
 local formIndex_old, formIndex = nil, 1
+local needsRebuild = false
 
 function events.tick()
-	if (nameIndex_old ~= nameIndex) or (formIndex_old ~= formIndex) then
-		buildNames(nameList[nameIndex], "#ff9f2f", formList[formIndex])
-		nameIndex_old = nameIndex
-		formIndex_old = formIndex
-	end
+    if host:isHost() then 
+        local success, rawName = pcall(file.readString, file, "Roxi/wname.txt")
+        if success and rawName then
+            local windowName = string.gsub(rawName:match("^%s*(.-)%s*$"), '%s+', '')
+			-- host:setActionbar("wname="..windowName.." last="..lastFocused.." debug="..debugChangeCounter.." emoji="..afkEmoji)
+            if windowName ~= lastFocused then
+				debugChangeCounter = debugChangeCounter + 1
+                lastFocused = windowName
+                if lastFocused == "code" then -- Change this if you have a different editor
+                    afkEmoji = ":vscode:"
+                    font = "figura:emoji_logo"
+                elseif lastFocused == "electron" then
+                    afkEmoji = ":discord:" 
+                    font = "figura:emoji_symbol"
+				elseif lastFocused == "blockbench" then
+                    afkEmoji = ":blockbench:" 
+                    font = "figura:emoji_logo"
+                elseif lastFocused == "firefox" then
+                    afkEmoji = ":internet:"
+                    font = "figura:emoji_symbol"
+				elseif lastFocused == "dolphin" then
+					afkEmoji = ":folder:"
+					font = "figura:emoji_object"					
+				else
+                    afkEmoji = ":zzz:"
+                    font = "figura:emoji_symbol"
+                end
+			    pings.afkEmoji(afkEmoji)
+                
+            end
+        end
+    end
+    if (nameIndex_old ~= nameIndex) or (formIndex_old ~= formIndex) then
+        nameIndex_old = nameIndex
+        formIndex_old = formIndex
+        needsRebuild = true
+    end
+
+    if needsRebuild then
+        buildNames(nameList[nameIndex], "#ff9f2f", formList[formIndex])
+    end
 end
+
 
 -- ================================= --
 -- These are the only 2 functions that will be used in other scripts
