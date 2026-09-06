@@ -1,4 +1,4 @@
--- Dedicated to functions needed to generate names for all the variants
+	-- Dedicated to functions needed to generate names for all the variants
 --
 -- Note that very dynamic part of the name (such as afk timer) is built as a placeholder here
 -- and will be replaced in the display.lua
@@ -24,9 +24,9 @@ local function newNameBase(name, color)
 		}
 	}
 end
-debugChangeCounter = 0
-lastFocused = ""
-font = "figura:emoji_logo"
+--debugChangeCounter = 0
+local lastFocused = ""
+local font = "figura:emoji_logo"
 
 local afkEmoji = ":zzz:"
 function pings.afkEmoji(emoji)
@@ -50,7 +50,7 @@ end
 -- Append afk/typing/pronouns part of the nameplate
 local function appendAfk(json)
 	table.insert(json, {text = '\ntabbed out ', color = 'dark_gray', italic = true})
-	table.insert(json, {text = afkEmoji, italic = true, font = font})
+	table.insert(json, {text = afkEmoji, italic = true })
 	table.insert(json, 1, {text = '[${afk_timer}]\n', color = 'gray', italic = true}) -- Has placeholder text ${afk_timer}
 end
 
@@ -114,35 +114,30 @@ local nameIndex_old, nameIndex = nil, 1
 local formIndex_old, formIndex = nil, 1
 local needsRebuild = false
 
+-- This table maps program names to emojis
+local programEmojis = {
+    code = ":vscode:",
+	electron = ":discord:",
+    blockbench = ":blockbench:",
+    firefox = ":internet:",
+    dolphin = ":folder:",
+    plasmashell = ":cursor_1:",
+    konsole = ">_"
+}
+
 function events.tick()
     if host:isHost() then 
         local success, rawName = pcall(file.readString, file, "Roxi/wname.txt")
         if success and rawName then
             local windowName = string.gsub(rawName:match("^%s*(.-)%s*$"), '%s+', '')
-			-- host:setActionbar("wname="..windowName.." last="..lastFocused.." debug="..debugChangeCounter.." emoji="..afkEmoji)
             if windowName ~= lastFocused then
-				debugChangeCounter = debugChangeCounter + 1
+				--debugChangeCounter = debugChangeCounter + 1
                 lastFocused = windowName
-                if lastFocused == "code" then -- Change this if you have a different editor
-                    afkEmoji = ":vscode:"
-                    font = "figura:emoji_logo"
-                elseif lastFocused == "electron" then
-                    afkEmoji = ":discord:" 
-                    font = "figura:emoji_symbol"
-				elseif lastFocused == "blockbench" then
-                    afkEmoji = ":blockbench:" 
-                    font = "figura:emoji_logo"
-                elseif lastFocused == "firefox" then
-                    afkEmoji = ":internet:"
-                    font = "figura:emoji_symbol"
-				elseif lastFocused == "dolphin" then
-					afkEmoji = ":folder:"
-					font = "figura:emoji_object"					
-				else
-                    afkEmoji = ":zzz:"
-                    font = "figura:emoji_symbol"
-                end
-			    pings.afkEmoji(afkEmoji)
+                local tryEmoji = programEmojis[lastFocused]
+                if tryEmoji == nil then tryEmoji = ":zzz:" end	
+			    --host:setActionbar("wname="..windowName.." last="..lastFocused.." debug="..debugChangeCounter.." emoji="..tryEmoji)
+				
+			    pings.afkEmoji(tryEmoji)
                 
             end
         end
@@ -167,5 +162,7 @@ function pings.setNameplateNameIndex(x) nameIndex = x end
 function pings.setNameplateFormIndex(x) formIndex = x end
 
 function plates.getName() return nameList[nameIndex] end
+
+
 
 return plates

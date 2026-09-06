@@ -142,6 +142,10 @@ dcBind.press = function ()
    runLater(20, function() silly:disconnect() end)
 end
 
+models:newPart("PORTRAIT","PORTRAIT")
+   :newText("portrait")
+   :setText(toJson({text = ":@roxi:", font = "figura:emoji_portrait"}))
+   :setPos(4,7,0)
 
 local root = models.model.root
 local torsoPart = root.Torso
